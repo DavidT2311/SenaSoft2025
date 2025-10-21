@@ -1,0 +1,85 @@
+CREATE TYPE Genero AS ENUM ('Masculino', 'Femenino');
+CREATE TYPE Tipo_Vuelo AS ENUM ('Solo ida', 'Ida y regreso');
+CREATE TYPE Tipo_Pago AS ENUM ('Tarjeta de crédito', 'Tarjeta de débito', 'PSE');
+
+
+CREATE TABLE USUARIOS (
+	Id BIGSERIAL PRIMARY KEY,
+	Correo VARCHAR(250) NOT NULL UNIQUE,
+	Clave VARCHAR(250)
+);
+
+CREATE TABLE PASAJEROS (
+	Id BIGSERIAL PRIMARY KEY,
+	Tipo_Documento VARCHAR(250) NOT NULL,
+	Documento VARCHAR(250) NOT NULL,
+	Primer_Apellido VARCHAR(250) NOT NULL,
+	Segundo_Apellido VARCHAR(250) NOT NULL,
+	Nombres VARCHAR(250) NOT NULL,
+	Correo VARCHAR (250) NOT NULL UNIQUE,
+	Celular VARCHAR (16),
+	Fecha_Nacimiento DATE,
+	Genero Genero,
+	Infante BOOLEAN
+);
+
+CREATE TABLE AVIONES (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Marca VARCHAR(250) NOT NULL,
+	Modelo VARCHAR(250) NOT NULL,
+	Capacidad INT NOT NULL
+);
+
+CREATE TABLE VUELOS (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Origen VARCHAR(250) NOT NULL,
+	Destino VARCHAR(250) NOT NULL,
+	Fecha_Ida DATE NOT NULL,
+	Fecha_Regreso DATE,
+	Hora TIME NOT NULL,
+	Precio DECIMAL(10, 0) NOT NULL,
+	Tipo_Vuelo Tipo_Vuelo,
+	Codigo_Avion BIGINT,
+
+	FOREIGN KEY (Codigo_Avion) REFERENCES AVIONES (Codigo)	
+);
+
+CREATE TABLE ASIENTOS (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Asiento INT,
+	Codigo_Vuelo BIGINT,
+
+	FOREIGN KEY (Codigo_Vuelo) REFERENCES VUELOS (Codigo)
+);
+
+CREATE TABLE RESERVAS (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Codigo_Vuelo BIGINT,
+	Fecha DATE NOT NULL,
+
+	FOREIGN KEY (Codigo_Vuelo) REFERENCES VUELOS (Codigo)
+);
+
+CREATE TABLE TIQUETES (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Codigo_Reserva BIGINT,
+	Codigo_Pasajero BIGINT,
+
+	FOREIGN KEY (Codigo_Reserva) REFERENCES RESERVAS (Codigo),
+	FOREIGN KEY (Codigo_Pasajero) REFERENCES PASAJEROS (Id)
+);
+
+CREATE TABLE PAGOS (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Codigo_Reserva BIGINT,
+	Tipo_Documento VARCHAR(250) NOT NULL,
+	Documento VARCHAR(250) NOT NULL,
+	Nombre_Completo VARCHAR(250) NOT NULL,
+	Correo VARCHAR (250) NOT NULL,
+	Celular VARCHAR (16),
+	Tipo_Pago Tipo_Pago,
+	Monto DECIMAL(10, 0) NOT NULL,
+
+	FOREIGN KEY (Codigo_Reserva) REFERENCES RESERVAS (Codigo)
+);
+
