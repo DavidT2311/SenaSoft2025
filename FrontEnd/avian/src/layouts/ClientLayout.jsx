@@ -8,20 +8,16 @@ const ClientLayout = () => {
     <>
       <header>
         <div className="content">
-          <h2>
-            AVIAN.NET
-          </h2>
-          <div className="logo">
-
-          </div>
-          </div>
+          <h2>AVIAN.NET</h2>
+          <div className="logo"></div>
+        </div>
         <div className="content-log">
           <Button text={"Login"} />
           <Button text={"Register"} />
         </div>
       </header>
-      
-      <main>
+
+      <main className="clientlayout-main">
         <Outlet />
       </main>
 
