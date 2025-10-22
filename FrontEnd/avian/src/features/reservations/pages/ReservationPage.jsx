@@ -1,41 +1,39 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
+import Button from "../../../shared/components/Button";
 
 export default function ReservationPage() {
   const [formData, setFormData] = useState({
-    documentType: 'C.C',
-    email: '',
-    document: '',
-    phone: '',
-    firstName: '',
-    birthDate: '',
-    lastName1: '',
-    gender: 'Masculino',
-    lastName2: ''
+    documentType: "C.C",
+    email: "",
+    document: "",
+    phone: "",
+    firstName: "",
+    birthDate: "",
+    lastName1: "",
+    gender: "Masculino",
+    lastName2: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = () => {
-    console.log('Reservar:', formData);
+    console.log("Reservar:", formData);
   };
 
   const handleViewSeats = () => {
-    console.log('Ver Asientos');
+    console.log("Ver Asientos");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
-        
-        <div className="text-center mb-8">
-        </div>
+        <div className="text-center mb-8"></div>
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
           <div className="bg-gradient-to-r from-gray-300 to-gray-200 py-6 px-8">
             <h2 className="text-3xl font-bold text-gray-700 text-center tracking-wide">
@@ -151,43 +149,40 @@ export default function ReservationPage() {
                 >
                   <option value="Masculino">Masculino</option>
                   <option value="Femenino">Femenino</option>
-                  <option value="Otro">Otro</option>
                 </select>
               </div>
-              <div className="md:col-span-2">
+              <div className=" d-flex">
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Segundo Apellido:
                 </label>
                 <input
                   type="text"
-                  name="lastName2"
-                  value={formData.lastName2}
+                  name="lastName1"
+                  value={formData.lastName1}
                   onChange={handleChange}
-                  placeholder="Gutierrez"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition md:w-1/2"
+                  placeholder="Alvarez"
+                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
-            </div>
-            <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-end">
-              <button
-                onClick={handleViewSeats}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
-              >
-                Ver Asientos
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition transform hover:scale-105"
-              >
-                Reservar
-              </button>
+              <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
+                <Button text={"Ver Asientos"} />
+                <Button text={"Reservar"} />
+              </div>
             </div>
             <div className="mt-6 text-center">
-              <button
-                className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <button className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
             </div>

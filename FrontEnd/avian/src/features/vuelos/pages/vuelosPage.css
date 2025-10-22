@@ -15,6 +15,7 @@
 }
 
 .title-flight {
+    color: var(--blanco);
     display: flex;
     align-items: center;
     border-radius: 10px 10px 0px 0px;
