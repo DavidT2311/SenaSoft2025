@@ -20,6 +20,7 @@ class Aviones(Base):
     capacidad: Mapped[int] = mapped_column(Integer, nullable=False)
 
     vuelos: Mapped[list['Vuelos']] = relationship('Vuelos', back_populates='aviones')
+    asientos: Mapped[list['Asientos']] = relationship('Asientos', back_populates='aviones')
 
 
 class Pasajeros(Base):
@@ -75,22 +76,22 @@ class Vuelos(Base):
     codigo_avion: Mapped[int] = mapped_column(BigInteger)
 
     aviones: Mapped['Aviones'] = relationship('Aviones', back_populates='vuelos')
-    asientos: Mapped[list['Asientos']] = relationship('Asientos', back_populates='vuelos')
     reservas: Mapped[list['Reservas']] = relationship('Reservas', back_populates='vuelos')
 
 
 class Asientos(Base):
     __tablename__ = 'asientos'
     __table_args__ = (
-        ForeignKeyConstraint(['codigo_vuelo'], ['vuelos.codigo'], name='asientos_codigo_vuelo_fkey'),
+        ForeignKeyConstraint(['codigo_avion'], ['aviones.codigo'], name='asientos_codigo_avion_fkey'),
         PrimaryKeyConstraint('codigo', name='asientos_pkey')
     )
 
     codigo: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    asiento: Mapped[int] = mapped_column(Integer)
-    codigo_vuelo: Mapped[int] = mapped_column(BigInteger)
+    asiento: Mapped[str] = mapped_column(String(250 ))
+    codigo_avion: Mapped[int] = mapped_column(BigInteger)
 
-    vuelos: Mapped['Vuelos'] = relationship('Vuelos', back_populates='asientos')
+    aviones: Mapped['Aviones'] = relationship('Aviones', back_populates='asientos')
+    tiquetes: Mapped['Tiquetes'] = relationship('Tiquetes', back_populates='asientos')
 
 
 class Reservas(Base):
@@ -137,12 +138,15 @@ class Tiquetes(Base):
     __table_args__ = (
         ForeignKeyConstraint(['codigo_pasajero'], ['pasajeros.id'], name='tiquetes_codigo_pasajero_fkey'),
         ForeignKeyConstraint(['codigo_reserva'], ['reservas.codigo'], name='tiquetes_codigo_reserva_fkey'),
+        ForeignKeyConstraint(['codigo_asiento'], ['asientos.codigo'], name='tiquetes_codigo_asiento_fkey'),
         PrimaryKeyConstraint('codigo', name='tiquetes_pkey')
     )
 
     codigo: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     codigo_reserva: Mapped[int] = mapped_column(BigInteger)
     codigo_pasajero: Mapped[int] = mapped_column(BigInteger)
+    codigo_asiento: Mapped[int] = mapped_column(BigInteger)
 
     pasajeros: Mapped['Pasajeros'] = relationship('Pasajeros', back_populates='tiquetes')
     reservas: Mapped['Reservas'] = relationship('Reservas', back_populates='tiquetes')
+    asientos: Mapped['Asientos'] = relationship('Asientos', back_populates='tiquetes')

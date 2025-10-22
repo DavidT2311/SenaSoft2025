@@ -24,7 +24,7 @@ class Repository:
         return [GetDTO.model_validate(reservation) for reservation in reservations_list]
 
     async def add(self, reservation: SendDTO):
-        new_reservation = Reservas(**reservation.dict())
+        new_reservation = Reservas(**reservation.dict(exclude={'pasajeros'}))
         self.db.add(new_reservation)
 
         try:

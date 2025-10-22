@@ -6,7 +6,7 @@ from app.core.unit_of_work import UnitOfWork
 from app.features.pasajeros.application.GetAll import GetAll
 from app.features.pasajeros.application.Add import Add
 # DTOs
-from app.features.pasajeros.DTOs.SendDTO import SendDTO
+from app.features.pasajeros.DTOs.PassengerListDTO import PassengerListDTO
 
 
 router = APIRouter()
@@ -20,7 +20,7 @@ async def get_all():
     
     
 @router.post('/pasajeros')
-async def add(passenger: SendDTO):
+async def add(passenger_list: PassengerListDTO):
     async with UnitOfWork() as uow:
         use_case = Add(uow)
-        return await use_case.execute_async(passenger)
+        return await use_case.execute_async(passenger_list)

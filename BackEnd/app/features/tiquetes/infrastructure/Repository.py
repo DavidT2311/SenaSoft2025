@@ -49,4 +49,13 @@ class Repository:
             raise
 
         return ticket
+    
+    async def get_ticket_by_seat_code(self, code: int):
+        ticket = await self.db.execute(select(Tiquetes).where(Tiquetes.codigo_asiento == code))
+        ticket = ticket.scalars().first()
+
+        if not ticket:
+            return None
+
+        return ticket
 

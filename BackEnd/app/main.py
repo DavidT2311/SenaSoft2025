@@ -15,6 +15,8 @@ from app.features.tiquetes.presentation import TiquetesRouter
 from app.features.pasajeros.presentation import PasajerosRouter
 # Pagos
 from app.features.pagos.presentation import PagosRouter
+# aviones
+# from app.features.aviones.presentation import AvionesRouter
 
 app = FastAPI()
 
@@ -27,6 +29,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# Ruta aviones 
+# app.include_router(AvionesRouter.router, prefix="/api/v1", tags=["Aviones"])
 # Ruta vuelos 
 app.include_router(VuelosRouter.router, prefix="/api/v1", tags=["Vuelos"])
 # Ruta asientos 

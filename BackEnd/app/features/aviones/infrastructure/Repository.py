@@ -3,6 +3,7 @@ from typing import List
 # SQLAlchemy
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 # Context
 from app.context.SenaSoftContext import Aviones
 # DTOs
@@ -51,3 +52,4 @@ class Repository:
             raise
 
         return plane
+

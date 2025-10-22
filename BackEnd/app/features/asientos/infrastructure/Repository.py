@@ -32,3 +32,16 @@ class Repository:
             return AsientosModel.model_validate(new_seat)
         except:
             raise
+
+    async def get_seats_by_plane_code(self, code: int):
+        seats = await self.db.execute(
+            select(Asientos)
+            .where(Asientos.codigo_avion == code)
+        )
+
+        seats = seats.scalars().all()
+
+        if not seats:
+            raise
+
+        return seats

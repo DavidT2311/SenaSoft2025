@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 class AsientosModel(BaseModel):
     codigo: int
-    asiento: int
-    codigo_vuelo: int
+    asiento: str
+    codigo_avion: int
 
 
     class Config:

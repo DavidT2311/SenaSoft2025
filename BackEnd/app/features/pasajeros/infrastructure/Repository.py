@@ -49,4 +49,13 @@ class Repository:
             raise
 
         return passenger
+    
+    async def get_by_email(self, email: str):
+        passenger = await self.db.execute(select(Pasajeros).where(Pasajeros.correo == email))
+        passenger = passenger.scalars().first()
+
+        if not passenger:
+            return None
+
+        return passenger
 

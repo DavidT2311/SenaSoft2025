@@ -3,5 +3,5 @@ from pydantic import BaseModel
 
 
 class SendDTO(BaseModel):
-    asiento: int
-    codigo_vuelo: int
+    asiento: str
+    codigo_avion: int
