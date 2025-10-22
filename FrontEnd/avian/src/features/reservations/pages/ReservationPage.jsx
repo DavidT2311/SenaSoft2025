@@ -35,10 +35,8 @@ export default function ReservationPage() {
       <div className="w-full max-w-4xl">
         <div className="text-center mb-8"></div>
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-gray-300 to-gray-200 py-6 px-8">
-            <h2 className="text-3xl font-bold text-gray-700 text-center tracking-wide">
-              FORMULARIO DE RESERVA
-            </h2>
+          <div className="title-flight-payments flex justify-center">
+            <h2>FORMULARIO DE RESERVA</h2>
           </div>
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
