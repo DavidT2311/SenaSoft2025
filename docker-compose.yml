@@ -2,12 +2,12 @@ version: "3.9"
 
 services:
   backend:
-    build: ./Backend
+    build: ./BackEnd
     container_name: senasoft_backend_fast_api
     command: >
       sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
-      - ./Backend:/app
+      - ./BackEnd:/app
     ports:
       - "8383:8000"
     env_file:
@@ -18,7 +18,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: senasoft_db_postgresql
+    container_name: senasoft_database_postgresql
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -31,16 +31,16 @@ services:
       - ./DB/DB.sql:/docker-entrypoint-initdb.d/DB.sql
 
   frontend:
-    build: ./Frontend
+    build: ./FrontEnd/avian
     container_name: senasoft_frontend_react_js
     volumes:
-      - ./Frontend:/app
+      - ./FrontEnd/avian:/app
       - /app/node_modules
     ports:
       - "3838:3000"
     stdin_open: true
     tty: true
-    command: npm start -- --host 0.0.0.0
+    command: npm run dev -- --host 0.0.0.0
     restart: always
 
 volumes:
