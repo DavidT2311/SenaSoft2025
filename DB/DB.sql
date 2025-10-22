@@ -30,26 +30,27 @@ CREATE TABLE AVIONES (
 	Capacidad INT NOT NULL
 );
 
+CREATE TABLE ASIENTOS (
+	Codigo BIGSERIAL PRIMARY KEY,
+	Asiento VARCHAR(250),
+	Codigo_Avion BIGINT,
+
+	FOREIGN KEY (Codigo_Avion) REFERENCES AVIONES (Codigo)
+);
+
 CREATE TABLE VUELOS (
 	Codigo BIGSERIAL PRIMARY KEY,
 	Origen VARCHAR(250) NOT NULL,
 	Destino VARCHAR(250) NOT NULL,
 	Fecha_Ida DATE NOT NULL,
+	Hora_Ida TIME NOT NULL,
 	Fecha_Regreso DATE,
-	Hora TIME NOT NULL,
+	Hora_Regreso Date,
 	Precio DECIMAL(10, 0) NOT NULL,
 	Tipo_Vuelo Tipo_Vuelo,
 	Codigo_Avion BIGINT,
 
 	FOREIGN KEY (Codigo_Avion) REFERENCES AVIONES (Codigo)	
-);
-
-CREATE TABLE ASIENTOS (
-	Codigo BIGSERIAL PRIMARY KEY,
-	Asiento INT,
-	Codigo_Vuelo BIGINT,
-
-	FOREIGN KEY (Codigo_Vuelo) REFERENCES VUELOS (Codigo)
 );
 
 CREATE TABLE RESERVAS (
@@ -64,9 +65,11 @@ CREATE TABLE TIQUETES (
 	Codigo BIGSERIAL PRIMARY KEY,
 	Codigo_Reserva BIGINT,
 	Codigo_Pasajero BIGINT,
+	codigo_Asiento BIGINT,
 
 	FOREIGN KEY (Codigo_Reserva) REFERENCES RESERVAS (Codigo),
-	FOREIGN KEY (Codigo_Pasajero) REFERENCES PASAJEROS (Id)
+	FOREIGN KEY (Codigo_Pasajero) REFERENCES PASAJEROS (Id),
+	FOREIGN KEY (codigo_Asiento) REFERENCES ASIENTOS (Codigo)
 );
 
 CREATE TABLE PAGOS (
@@ -79,7 +82,9 @@ CREATE TABLE PAGOS (
 	Celular VARCHAR (16),
 	Tipo_Pago Tipo_Pago,
 	Monto DECIMAL(10, 0) NOT NULL,
+	Numero_Tarjeta VARCHAR(250),
+	Caducidad DATE,
+	CVV INT,
 
 	FOREIGN KEY (Codigo_Reserva) REFERENCES RESERVAS (Codigo)
 );
-

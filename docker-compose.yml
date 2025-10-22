@@ -3,7 +3,7 @@ version: "3.9"
 services:
   backend:
     build: ./BackEnd
-    container_name: senasoft_backend_fast_api
+    container_name: senasoft_back_fast_api
     command: >
       sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
@@ -25,14 +25,14 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5440:5432"
+      - "5442:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./DB/DB.sql:/docker-entrypoint-initdb.d/DB.sql
 
   frontend:
     build: ./FrontEnd/avian
-    container_name: senasoft_frontend_react_js
+    container_name: senasoft_front_react_js
     volumes:
       - ./FrontEnd/avian:/app
       - /app/node_modules
