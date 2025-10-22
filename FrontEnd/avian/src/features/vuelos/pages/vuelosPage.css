@@ -6,7 +6,7 @@
 }
 
 .flight-offer {
-    width: 70%;
+    width: 90%;
     background-color: var(--blanco);
     border-radius: 10px;
     border: none;
@@ -32,7 +32,7 @@
 
 .flight-available {
     background-color: var(--blanco);
-    width: 70%;
+    width: 90%;
     border: 2px solid blue;
     height: 200px;
     margin: 10px auto;  
@@ -66,8 +66,13 @@
 }
 
 .content-filter {
-    margin: 0 auto;
-    padding: 15px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .origin {
@@ -107,4 +112,27 @@
     display: flex;
     width: 100%;
     justify-content: center;
+}
+
+.date-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: var(--blanco);
+  color: var(--negro);
+}
+
+.date-input:focus {
+  border-color: #2684FF;
+  outline: none;
+  box-shadow: 0 0 0 1px #2684FF;
+}
+
+
+@media(max-width: 890px) {
+    .content-filter {
+        flex-direction: column;
+    }
 }

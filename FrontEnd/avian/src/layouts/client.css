@@ -70,3 +70,13 @@ footer {
 .footer-title {
   font-weight: 100;
 }
+
+.icono {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: auto;
+    
+}
+
