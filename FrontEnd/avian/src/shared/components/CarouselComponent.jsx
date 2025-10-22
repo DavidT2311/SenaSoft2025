@@ -16,21 +16,29 @@ function CarouselComponent() {
     );
   };
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
   useEffect(() => {
-    const interval = setInterval(nextSlide, 4000); // Cambia cada 4 segundos
+    const interval = setInterval(nextSlide, 4000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <>
-        <img src={images[currentIndex]} alt="Slide" className="carousel-image" />
-    </>
+    <div className="carousel-container">
+      <div
+        className="carousel-slider"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
+      >
+        {images.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`Slide ${index}`}
+            className="carousel-image"
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
