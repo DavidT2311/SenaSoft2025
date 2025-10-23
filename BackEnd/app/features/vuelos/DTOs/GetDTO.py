@@ -19,6 +19,7 @@ class GetDTO(BaseModel):
     tipo_vuelo: EnumTipoVuelo
 
     codigo_avion: int
+    capacidad: int = None
 
 
     class Config:

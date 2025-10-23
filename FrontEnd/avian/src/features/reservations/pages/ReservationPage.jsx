@@ -155,8 +155,8 @@ export default function ReservationPage() {
                 </label>
                 <input
                   type="text"
-                  name="lastName1"
-                  value={formData.lastName1}
+                  name="lastName2"
+                  value={formData.lastName2}
                   onChange={handleChange}
                   placeholder="Alvarez"
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
