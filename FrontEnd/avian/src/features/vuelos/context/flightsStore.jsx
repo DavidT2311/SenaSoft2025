@@ -8,6 +8,7 @@ const baseUrl = "http://127.0.0.1:8383/api/v1";
 export const flightsStore = create((set) => ({
   flightsList: [],
   flightCode: null,
+  passengerCount: null,
 
   getFlights: async (ida, orig, dest, fida, freg) => {
     set({ flightsList: [] });
@@ -21,10 +22,9 @@ export const flightsStore = create((set) => ({
         }`
       );
       set({ flightsList: data });
-    } catch (error) {
-      set({ errorMessageProviders: error.message });
-    }
+    } catch (error) {}
   },
   clearList: async () => set({ flightsList: [] }),
   setFlightCode: async (code) => set({ flightCode: code }),
+  setPassengerCount: async (quantity) => set({ passengerCount: quantity }),
 }));

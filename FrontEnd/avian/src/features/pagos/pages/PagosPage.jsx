@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ButtonPayment from "../../../shared/components/ButtonPayment";
-import "./payment.css"; 
-
+import "./payment.css";
+import { useNavigate } from "react-router";
 
 export default function PagosPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +18,8 @@ export default function PagosPage() {
     acceptTerms: false,
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -27,17 +29,7 @@ export default function PagosPage() {
   };
 
   const handleSubmit = () => {
-    console.log("Tipo de documento:", formData.documentType);
-    console.log("Correo:", formData.email);
-    console.log("Documento:", formData.document);
-    console.log("Teléfono:", formData.phone);
-    console.log("Nombre completo:", formData.fullName);
-    console.log("Tipo de pago:", formData.paymentType);
-    console.log("Monto:", formData.amount);
-    console.log("Número de tarjeta:", formData.cardNumber);
-    console.log("Caducidad:", formData.expiryDate);
-    console.log("CVV:", formData.cvv);
-    console.log("Acepta términos:", formData.acceptTerms);
+    navigate("/tiquetes");
   };
 
   return (
@@ -232,8 +224,9 @@ export default function PagosPage() {
               <ButtonPayment text={"Reservar"} onClick={handleSubmit} />
             </div>
             <div className="mt-6 text-center">
-              <button 
+              <button
                 type="button"
+                onClick={() => navigate("/reserva")}
                 className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition"
               >
                 <svg

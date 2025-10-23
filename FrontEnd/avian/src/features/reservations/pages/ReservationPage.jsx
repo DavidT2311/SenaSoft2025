@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../shared/components/Button";
+import { reservationsStore } from "../context/reservationsStore";
+import { flightsStore } from "../../vuelos/context/flightsStore";
+import { useNavigate } from "react-router";
 
 export default function ReservationPage() {
+  const [numbers, setNumbers] = useState([]);
   const [formData, setFormData] = useState({
     documentType: "C.C",
     email: "",
@@ -14,6 +18,12 @@ export default function ReservationPage() {
     lastName2: "",
   });
 
+  const addPassenger = reservationsStore((state) => state.addPassenger);
+  const passenger_list = reservationsStore((state) => state.passenger_list);
+
+  const passengerCount = flightsStore((state) => state.passengerCount);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,29 +33,40 @@ export default function ReservationPage() {
     }));
   };
 
+  useEffect(() => {
+    console.log(passengerCount);
+    if (passengerCount) {
+      let list = [];
+      for (let index = 0; index < passengerCount; index++) {
+        list.push(index);
+      }
+      setNumbers(list);
+    }
+  }, [passengerCount]);
 
   const handleSubmit = () => {
-    console.log("Tipo de documento:", formData.documentType);
-    console.log("Correo:", formData.email);
-    console.log("Documento:", formData.document);
-    console.log("Teléfono:", formData.phone);
-    console.log("Nombres:", formData.firstName);
-    console.log("Fecha nacimiento:", formData.birthDate);
-    console.log("Primer apellido:", formData.lastName1);
-    console.log("Segundo apellido:", formData.lastName2);
-    console.log("Género:", formData.gender);
+    const finalList = [];
+    passenger_list.forEach((e) => {
+      const passenger = {
+        tipo_documento: e.documentType,
+        documento: e.document,
+        primer_apellido: e.lastName1,
+        segundo_apellido: e.lastName2,
+        nombres: e.firstName,
+        correo: e.email,
+        celular: e.phone,
+        fecha_nacimiento: e.birthDate,
+        genero: e.gender,
+        asiento: e.seat,
+      };
+      finalList.push(...passenger);
+    });
+    addPassenger(finalList);
+    navigate("/pagos");
   };
 
   const handleViewSeats = () => {
-    console.log("Tipo de documento:", formData.documentType);
-    console.log("Correo:", formData.email);
-    console.log("Documento:", formData.document);
-    console.log("Teléfono:", formData.phone);
-    console.log("Nombres:", formData.firstName);
-    console.log("Fecha nacimiento:", formData.birthDate);
-    console.log("Primer apellido:", formData.lastName1);
-    console.log("Segundo apellido:", formData.lastName2);
-    console.log("Género:", formData.gender);
+    navigate("/asientos");
   };
 
   return (
@@ -57,159 +78,168 @@ export default function ReservationPage() {
             <h2>FORMULARIO DE RESERVA</h2>
           </div>
           <div className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Tipo de documento */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Tipo de documento:
-                </label>
-                <select
-                  name="documentType"
-                  value={formData.documentType}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
-                >
-                  <option value="C.C">C.C</option>
-                  <option value="T.I">T.I</option>
-                  <option value="Pasaporte">Pasaporte</option>
-                  <option value="C.E">C.E</option>
-                </select>
-              </div>
+            {numbers.length > 0 && (
+              <>
+                {numbers.map((element) => (
+                  <div className="grid mb-30 grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Tipo de documento */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Tipo de documento:
+                      </label>
+                      <select
+                        name="documentType"
+                        value={formData.documentType}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
+                      >
+                        <option value="C.C">C.C</option>
+                        <option value="T.I">T.I</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="C.E">C.E</option>
+                      </select>
+                    </div>
 
-              {/* Correo */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Correo:
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="juan@gmail.com"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Correo */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Correo:
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="juan@gmail.com"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Documento */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Documento:
-                </label>
-                <input
-                  type="text"
-                  name="document"
-                  value={formData.document}
-                  onChange={handleChange}
-                  placeholder="123456789"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Documento */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Documento:
+                      </label>
+                      <input
+                        type="text"
+                        name="document"
+                        value={formData.document}
+                        onChange={handleChange}
+                        placeholder="123456789"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Teléfono */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Celular:
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="3124567890"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Teléfono */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Celular:
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="3124567890"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Nombres */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Nombres:
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  placeholder="Juan Andres"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Nombres */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Nombres:
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="Juan Andres"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Fecha de nacimiento */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Fecha Nacimiento:
-                </label>
-                <input
-                  type="date"
-                  name="birthDate"
-                  value={formData.birthDate}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Fecha de nacimiento */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Fecha Nacimiento:
+                      </label>
+                      <input
+                        type="date"
+                        name="birthDate"
+                        value={formData.birthDate}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Primer Apellido */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Primer Apellido:
-                </label>
-                <input
-                  type="text"
-                  name="lastName1"
-                  value={formData.lastName1}
-                  onChange={handleChange}
-                  placeholder="Alvarez"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Primer Apellido */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Primer Apellido:
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName1"
+                        value={formData.lastName1}
+                        onChange={handleChange}
+                        placeholder="Alvarez"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Género */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Género:
-                </label>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
-                >
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                </select>
-              </div>
+                    {/* Género */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Género:
+                      </label>
+                      <select
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
+                      >
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                      </select>
+                    </div>
 
-              {/* Segundo Apellido */}
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Segundo Apellido:
-                </label>
-                <input
-                  type="text"
-                  name="lastName2"
-                  value={formData.lastName2}
-                  onChange={handleChange}
-                  placeholder="Alvarez"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
+                    {/* Segundo Apellido */}
+                    <div>
+                      <label className="block text-teal-700 font-bold mb-2 text-lg">
+                        Segundo Apellido:
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName2"
+                        value={formData.lastName2}
+                        onChange={handleChange}
+                        placeholder="Alvarez"
+                        className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                      />
+                    </div>
 
-              {/* Botones */}
-              <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
-                <div onClick={handleViewSeats}>
-                  <Button text={"Ver Asientos"} />
-                </div>
-                <div onClick={handleSubmit}>
-                  <Button text={"Reservar"} />
-                </div>
-              </div>
-            </div>
+                    {/* Botones */}
+                    <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
+                      <div onClick={handleViewSeats}>
+                        <Button text={"Ver Asientos"} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
 
             {/* Botón de volver */}
-            <div className="mt-6 text-center">
-              <button className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition">
+            <div className="mt-6 text-center flex gap-5 justify-center">
+              <div onClick={handleSubmit}>
+                <Button text={"Reservar"} />
+              </div>
+              <button
+                onClick={() => navigate("/")}
+                className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition"
+              >
                 <svg
                   className="w-6 h-6"
                   fill="none"
