@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../../shared/components/Button";
+import { reservationsStore } from "../context/reservationsStore";
 
 export default function ReservationPage() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ export default function ReservationPage() {
     lastName2: "",
   });
 
+  const addPassenger = reservationsStore((state) => state.addPassenger);
+  const passenger_list = reservationsStore((state) => state.passenger_list);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -23,7 +27,23 @@ export default function ReservationPage() {
   };
 
   const handleSubmit = () => {
-    console.log("Reservar:", formData);
+    const finalList = [];
+    passenger_list.forEach((e) => {
+      const passenger = {
+        tipo_documento: e.documentType,
+        documento: e.document,
+        primer_apellido: e.lastName1,
+        segundo_apellido: e.lastName2,
+        nombres: e.firstName,
+        correo: e.email,
+        celular: e.phone,
+        fecha_nacimiento: e.birthDate,
+        genero: e.gender,
+        asiento: e.seat,
+      };
+      finalList.push(...passenger);
+    });
+    addPassenger(finalList);
   };
 
   const handleViewSeats = () => {
@@ -164,7 +184,9 @@ export default function ReservationPage() {
               </div>
               <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
                 <Button text={"Ver Asientos"} />
-                <Button text={"Reservar"} />
+                <div onClick={handleSubmit}>
+                  <Button text={"Reservar"} />
+                </div>
               </div>
             </div>
             <div className="mt-6 text-center">

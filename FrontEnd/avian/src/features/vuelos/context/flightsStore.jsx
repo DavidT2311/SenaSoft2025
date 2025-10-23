@@ -21,9 +21,7 @@ export const flightsStore = create((set) => ({
         }`
       );
       set({ flightsList: data });
-    } catch (error) {
-      set({ errorMessageProviders: error.message });
-    }
+    } catch (error) {}
   },
   clearList: async () => set({ flightsList: [] }),
   setFlightCode: async (code) => set({ flightCode: code }),
