@@ -9,32 +9,60 @@ Todo está orquestado mediante **Docker Compose**, lo que permite levantar el en
 
 SenaSoft2025/
 │
+
+
 ├── frontend/ # Aplicación web en React
+
 │ ├── src/
+
 │ ├── package.json
+
 │ └── Dockerfile
+
 │
+
 ├── backend/ # API en FastAPI (Clean Architecture)
+
 │ ├── app/
+
 │ │ ├── core/ # Configuración principal
+
 │ │ ├── domain/ # Entidades y modelos de negocio
+
 │ │ ├── application/ # Casos de uso
+
 │ │ ├── infrastructure/ # Adaptadores (DB, repositorios)
+
 │ │ └── presentation/ # Rutas y controladores FastAPI
+
 │ ├── create_tables.py
+
 │ ├── Dockerfile
+
 │ └── requirements.txt
+
 │
+
 ├── Documents/ # Documentación técnica y funcional
+
 │ ├── README.md
+
 │ ├── mockup / # Diseño base del proyecto
+
 │ ├── arquitectura.png
+
 │ |__ modelo_relacional.png
+
 │ 
+
 │
+
 ├── docker-compose.yml
+
 ├── .env
+
 └── README.md
+
 
 ----------------------------------------------------------------------------
 
@@ -42,19 +70,19 @@ SenaSoft2025/
 
 ```env
 # PostgreSQL
-DB_USER=postgres
-DB_PASSWORD=12345
-DB_NAME=SenaSoftDB
-DB_HOST=db
-DB_PORT=5432
+DB_USER
+DB_PASSWORD
+DB_NAME
+DB_HOST
+DB_PORT
 
 # Backend
-BACKEND_PORT=8000
+BACKEND_PORT
 
 ----------------------------------------------------------------------------
 
 # Frontend
-FRONTEND_PORT=3030
+FRONTEND_PORT
 Despliegue con Docker Compose
 1. Construir los contenedores
 
