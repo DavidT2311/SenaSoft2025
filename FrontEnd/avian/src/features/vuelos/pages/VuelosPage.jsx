@@ -9,7 +9,9 @@ import CarouselComponent from "../../../shared/components/CarouselComponent";
 const VuelosPage = () => {
   return (
     <>
-      <section className="carousel"><CarouselComponent /></section>
+      <section className="carousel">
+        <CarouselComponent />
+      </section>
 
       <section className="flight-offer">
         <div className="title-flight">
@@ -29,14 +31,14 @@ const VuelosPage = () => {
           </div>
         </div>
         <div className="content-filter">
-            <h2>Origen:</h2>
-            <SelectInputComponent />
-            <h2>Destino:</h2>
-            <SelectDestination />
-            <h2>Fecha ida:</h2>
-            <ReturnDate />
-            <h2>Fecha regreso:</h2>
-            <GoDate />
+          <h2>Origen:</h2>
+          <SelectInputComponent />
+          <h2>Destino:</h2>
+          <SelectDestination />
+          <h2>Fecha ida:</h2>
+          <ReturnDate />
+          <h2>Fecha regreso:</h2>
+          <GoDate />
         </div>
       </section>
       <section className="flight-available">
