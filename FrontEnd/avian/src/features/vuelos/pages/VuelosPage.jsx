@@ -15,9 +15,9 @@ const VuelosPage = () => {
   const setFlightCode = flightsStore((state) => state.setFlightCode);
   const flightsList = flightsStore((state) => state.flightsList);
 
+  // Estados controlados
   const [flightType, setFlightType] = useState("");
   const [passengers, setPassengers] = useState("");
-
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [goDate, setGoDate] = useState("");
@@ -27,12 +27,12 @@ const VuelosPage = () => {
 
   const handleSearch = () => {
     // getFlights();
-    console.log(passengers);
-    console.log(flightType);
-    console.log(origin);
-    console.log(destination);
-    console.log(goDate);
-    console.log(returnDate);
+    console.log("Pasajeros:", passengers);
+    console.log("Tipo de vuelo:", flightType);
+    console.log("Origen:", origin);
+    console.log("Destino:", destination);
+    console.log("Fecha ida:", goDate);
+    console.log("Fecha regreso:", returnDate);
   };
 
   const handleSelectFlight = (codigo) => {
@@ -42,7 +42,6 @@ const VuelosPage = () => {
 
   return (
     <>
-
       {/* Carrusel */}
       <section className="carousel">
         <CarouselComponent />
@@ -53,54 +52,79 @@ const VuelosPage = () => {
         <div className="title-flight">
           <h2>OFERTAS DE VUELO AVIAN</h2>
         </div>
+
         <div className="content-select">
+          {/* Select tipo de vuelo */}
           <select
             className="select-options"
-            defaultValue={flightType}
+            value={flightType}
             onChange={(e) => setFlightType(e.target.value)}
           >
+            <option value="">Seleccione tipo</option>
             <option value="Solo ida">Solo ida</option>
             <option value="Ida y regreso">Ida y regreso</option>
           </select>
+
+          {/* Input pasajeros */}
           <div className="content-input">
             <input
               type="number"
               className="option-number"
               placeholder="Pasajeros"
-              defaultValue={flightType}
+              value={passengers}
               onChange={(e) => setPassengers(e.target.value)}
             />
           </div>
         </div>
 
+        {/* Filtros de vuelo */}
         <div className="content-filter">
           <h2>Origen:</h2>
           <SelectInputComponent
             value={origin}
-            action={(e) => setOrigin(e.target.value)}
+            action={(e) => {
+              const val = e?.target ? e.target.value : e;
+              setOrigin(val);
+            }}
             options={[
               { value: "Bogotá", label: "Bogotá" },
               { value: "Manizales", label: "Manizales" },
               { value: "Medellin", label: "Medellin" },
             ]}
           />
+
           <h2>Destino:</h2>
           <SelectDestination
             value={destination}
-            action={(e) => setDestination(e.target.value)}
+            action={(e) => {
+              const val = e?.target ? e.target.value : e;
+              setDestination(val);
+            }}
             options={[
               { value: "Bogotá", label: "Bogotá" },
               { value: "Manizales", label: "Manizales" },
               { value: "Medellin", label: "Medellin" },
             ]}
           />
+
           <h2>Fecha ida:</h2>
-          <GoDate value={goDate} action={(e) => setGoDate(e.target.value)} />
+          <GoDate
+            value={goDate}
+            action={(e) => {
+              const val = e?.target ? e.target.value : e;
+              setGoDate(val);
+            }}
+          />
+
           <h2>Fecha regreso:</h2>
           <ReturnDate
             value={returnDate}
-            action={(e) => setReturnDate(e.target.value)}
+            action={(e) => {
+              const val = e?.target ? e.target.value : e;
+              setReturnDate(val);
+            }}
           />
+
           <div onClick={handleSearch}>
             <Button text={"Buscar"} />
           </div>

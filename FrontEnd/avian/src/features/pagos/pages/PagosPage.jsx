@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "./payment.css";
-import Button from "../../../shared/components/Button";
+import ButtonPayment from "../../../shared/components/ButtonPayment";
+import "./payment.css"; 
+
 
 export default function PagosPage() {
   const [formData, setFormData] = useState({
@@ -26,16 +27,21 @@ export default function PagosPage() {
   };
 
   const handleSubmit = () => {
-    if (!formData.acceptTerms) {
-      alert("Debes aceptar los términos y condiciones");
-      return;
-    }
-    console.log("Reservar pago:", formData);
-    alert("Pago procesado exitosamente");
+    console.log("Tipo de documento:", formData.documentType);
+    console.log("Correo:", formData.email);
+    console.log("Documento:", formData.document);
+    console.log("Teléfono:", formData.phone);
+    console.log("Nombre completo:", formData.fullName);
+    console.log("Tipo de pago:", formData.paymentType);
+    console.log("Monto:", formData.amount);
+    console.log("Número de tarjeta:", formData.cardNumber);
+    console.log("Caducidad:", formData.expiryDate);
+    console.log("CVV:", formData.cvv);
+    console.log("Acepta términos:", formData.acceptTerms);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  flex items-center justify-center p-4">
+    <div className="min-h-screen  to-teal-50 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
           <div className="title-flight-payments flex justify-center">
@@ -218,15 +224,18 @@ export default function PagosPage() {
                   </div>
                 </div>
                 <span className="text-teal-700 font-bold text-lg">
-                  Aceptar Terminos y condiciones
+                  Aceptar Términos y condiciones
                 </span>
               </label>
             </div>
-            <div className="flex justify-center">
-              <Button text={"Reservar"} />
+            <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
+              <ButtonPayment text={"Reservar"} onClick={handleSubmit} />
             </div>
             <div className="mt-6 text-center">
-              <button className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition">
+              <button 
+                type="button"
+                className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition"
+              >
                 <svg
                   className="w-6 h-6"
                   fill="none"
