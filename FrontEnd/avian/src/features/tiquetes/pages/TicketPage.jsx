@@ -1,4 +1,5 @@
 import React from "react";
+import { ticketsStore } from "../context/ticketsStore";
 import "./ticket.css"; 
 
 export default function TicketPage() {
@@ -23,6 +24,9 @@ export default function TicketPage() {
       isChild: "No",
     },
   };
+
+  const getTickets = ticketsStore((state) => state.getTickets);
+  const ticketsList = ticketsStore((state) => state.ticketsList);
 
   const handleExport = () => {
     alert("Exportando ticket a PDF...");

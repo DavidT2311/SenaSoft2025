@@ -24,7 +24,7 @@ class Repository:
         return [GetDTO.model_validate(passenger) for passenger in passengers_list]
 
     async def add(self, passenger: SendDTO):
-        new_passenger = Pasajeros(**passenger.dict())
+        new_passenger = Pasajeros(**passenger.dict(exclude={'asiento'}))
         self.db.add(new_passenger)
 
         try:

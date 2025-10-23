@@ -18,3 +18,4 @@ class SendDTO(BaseModel):
     fecha_nacimiento: Optional[date] = None
     genero: Optional[EnumGenero] = None
     infante: Optional[bool] = None
+    asiento: int
