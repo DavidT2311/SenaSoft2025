@@ -1,27 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { reservationsStore } from "../../reservations/context/reservationsStore";
+import { seatsStore } from "../context/seatsStore";
+import { useNavigate } from "react-router";
 
 export default function AsientosPage() {
+  const getSeats = seatsStore((state) => state.getSeats);
+  const seats_list = seatsStore((state) => state.seats_list);
+
+  const [seat, setSeat] = useState(null);
+
+  const navigate = useNavigate();
+
   const generateSeats = () => {
     const seatLayout = [];
     for (let i = 0; i < 90; i++) {
-      seatLayout.push(Math.random() > 0.55); 
+      seatLayout.push(Math.random() > 0.55);
     }
     return seatLayout;
   };
 
+  useEffect(() => {
+    getSeats();
+  }, []);
+
   const [seats] = useState(generateSeats());
   const [selectedSeat, setSelectedSeat] = useState(null);
 
-  const toggleSeat = (seatIndex) => {
-    const seatId = `A${seatIndex + 1}`;
-
-    if (!seats[seatIndex]) return; // si está ocupado no hace nada
-
-    if (selectedSeat === seatId) {
-      setSelectedSeat(null); // deselecciona si ya está seleccionado
-    } else {
-      setSelectedSeat(seatId); // selecciona un solo asiento
-    }
+  const toggleSeat = (code) => {
+    setSeat(code);
   };
 
   const handleReserve = () => {
@@ -33,13 +39,15 @@ export default function AsientosPage() {
     }
   };
 
-  const getSeatColor = (seatIndex) => {
-    const seatId = `A${seatIndex + 1}`;
-    const isAvailable = seats[seatIndex];
-    const isSelected = selectedSeat === seatId;
+  const getSeatColor = (disponible) => {
+    // if (seats_list.length > 0) {
+    //   for (const element of seats_list) {
+    //     if (element.codigo == 3)
+    //       return "bg-blue-500 text-white border-blue-600";
+    //   }
+    // }
 
-    if (isSelected) return "bg-blue-500 text-white border-blue-600";
-    return isAvailable
+    return disponible
       ? "bg-green-400 border-green-500 text-white"
       : "bg-red-400 border-red-500 text-white";
   };
@@ -49,24 +57,30 @@ export default function AsientosPage() {
       <div className="w-full max-w-5xl">
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
           <div className="title-flight-payments flex justify-center py-4 bg-teal-600">
-            <h2 className="text-white text-xl font-bold">ASIENTOS DISPONIBLES</h2>
+            <h2 className="text-white text-xl font-bold">
+              ASIENTOS DISPONIBLES
+            </h2>
           </div>
 
           <div className="bg-gray-100 p-8 flex flex-col items-center">
             {/* Grilla de asientos */}
             <div className="grid grid-cols-10 gap-3 max-w-4xl mx-auto mb-8">
-              {seats.map((isAvailable, index) => (
+              {seats_list.map(({ codigo, disponible, asiento }, index) => (
                 <div
                   key={index}
-                  onClick={() => toggleSeat(index)}
+                  onClick={() => toggleSeat(codigo)}
                   className={`
                     w-12 h-12 flex items-center justify-center font-bold text-sm
                     border-2 rounded-md cursor-pointer transition-all duration-200 
-                    ${getSeatColor(index)} 
-                    ${isAvailable ? "hover:scale-105" : "opacity-50 cursor-not-allowed"}
+                    ${getSeatColor(disponible)}
+                    ${
+                      disponible
+                        ? "hover:scale-105"
+                        : "opacity-50 cursor-not-allowed"
+                    }
                   `}
                 >
-                  {index + 1}
+                  {asiento}
                 </div>
               ))}
             </div>
@@ -83,7 +97,9 @@ export default function AsientosPage() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded-sm"></div>
-                <span className="text-gray-700 font-semibold">Seleccionado</span>
+                <span className="text-gray-700 font-semibold">
+                  Seleccionado
+                </span>
               </div>
             </div>
 

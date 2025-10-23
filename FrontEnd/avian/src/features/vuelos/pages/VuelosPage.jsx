@@ -14,6 +14,7 @@ const VuelosPage = () => {
   const getFlights = flightsStore((state) => state.getFlights);
   const setFlightCode = flightsStore((state) => state.setFlightCode);
   const flightsList = flightsStore((state) => state.flightsList);
+  const setPassengerCount = flightsStore((state) => state.setPassengerCount);
 
   // Estados controlados
   const [flightType, setFlightType] = useState("");
@@ -26,16 +27,11 @@ const VuelosPage = () => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    // getFlights();
-    console.log("Pasajeros:", passengers);
-    console.log("Tipo de vuelo:", flightType);
-    console.log("Origen:", origin);
-    console.log("Destino:", destination);
-    console.log("Fecha ida:", goDate);
-    console.log("Fecha regreso:", returnDate);
+    getFlights(flightType, origin, destination, goDate, returnDate);
   };
 
   const handleSelectFlight = (codigo) => {
+    setPassengerCount(passengers);
     setFlightCode(codigo);
     navigate("/reserva");
   };

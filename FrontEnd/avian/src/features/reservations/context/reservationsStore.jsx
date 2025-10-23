@@ -2,6 +2,7 @@
 import { create } from "zustand";
 // Shared
 import { sendDataService } from "../../../shared/utils/sendDataService";
+import { getDataService } from "../../../shared/utils/getDataService";
 import { flightsStore } from "../../vuelos/context/flightsStore";
 
 const baseUrl = "http://127.0.0.1:8383/api/v1";
