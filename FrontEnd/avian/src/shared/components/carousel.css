@@ -36,3 +36,18 @@
   object-fit: cover;
   border-radius: 10px;
 }
+
+.carousel-caption {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 8px 16px;
+  font-size: 1.7rem;
+  font-weight: 200;
+  pointer-events: none; 
+  user-select: none;
+  max-width: 100%;
+  text-align: center;
+}
