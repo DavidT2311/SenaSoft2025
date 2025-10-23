@@ -15,10 +15,10 @@ const ClientLayout = () => {
             className="icono"
           />
         </div>
-        <div className="content-log">
+        {/* <div className="content-log">
           <Button text={"Login"} />
           <Button text={"Register"} />
-        </div>
+        </div> */}
       </header>
 
       <main className="clientlayout-main">

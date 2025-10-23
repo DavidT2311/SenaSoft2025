@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./search.css";
 
-function GoDate() {
-  const [fechaIda, setFechaIda] = useState('');
-
-  const handleChange = (e) => {
-    setFechaIda(e.target.value);
-  };
-
+function GoDate({ value, action }) {
   return (
     <div className="date-wrapper">
       <input
         type="date"
-        value={fechaIda}
-        onChange={handleChange}
+        value={value}
+        onChange={action}
         className="date-input"
         placeholder="Selecciona fecha ida"
       />

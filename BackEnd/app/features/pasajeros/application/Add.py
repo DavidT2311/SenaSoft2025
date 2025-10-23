@@ -9,6 +9,8 @@ from app.features.pasajeros.DTOs.PassengerListDTO import PassengerListDTO
 from app.features.asientos.DTOs.SendDTO import SendDTO as AsientosSendDTO
 # Python
 from datetime import date
+# FastAPI
+from fastapi import HTTPException
 
 
 class Add:
@@ -18,6 +20,9 @@ class Add:
 
     async def execute_async(self, passenger_list: PassengerListDTO):
         get_by_email = GetByEmail(self.uow)
+
+        if len(passenger_list) > 5:
+            raise HTTPException(400, "No se pueden agregar mas de 5 pasajeros")
         
         for passenger in passenger_list.lista_pasajeros:
             passenger_in_db = await get_by_email.execute_async(passenger.correo)

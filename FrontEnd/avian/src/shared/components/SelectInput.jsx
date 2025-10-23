@@ -1,24 +1,15 @@
-import React, { useState } from 'react';
-import Select from 'react-select';
+import React, { useState } from "react";
+import Select from "react-select";
 import "./search.css";
 
-const options = [
-  { value: 'Bogotá', label: 'Bogotá' },
-  { value: 'Manizales', label: 'Manizales' },
-  { value: 'Medellin', label: 'Medellin' }
-];
-
-function SelectWithSearch() {
-  const [selectedOption, setSelectedOption] = useState(null);
-
+function SelectWithSearch({ options, value, action }) {
   return (
-      <div className='search-origin'>
-        
+    <div className="search-origin">
       <Select
         options={options}
-        value={selectedOption}
-        onChange={setSelectedOption}
-        placeholder="Selecciona o busca..."
+        defaultValue={value}
+        onChange={(e) => action(e)}
+        placeholder="Selecciona..."
         isClearable
       />
     </div>
