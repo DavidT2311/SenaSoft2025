@@ -44,4 +44,4 @@ class Repository:
         if not seats:
             raise
 
-        return seats
+        return [GetDTO.model_validate(seat) for seat in seats]
