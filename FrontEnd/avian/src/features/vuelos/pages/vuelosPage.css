@@ -1,17 +1,17 @@
 .carousel {
-    width: 50%; 
-    height: 300px;
-    margin: 10px auto;
+  width: 50%;
+  height: 300px;
+  margin: 10px auto;
 }
 
 .flight-offer {
-    width: 90%;
-    background-color: var(--blanco);
-    border-radius: 10px;
-    border: none;
-    height: auto;
-    margin: 10px auto;
-    box-shadow: 0px 4px 15px rgb(20, 3, 3);
+  width: 90%;
+  background-color: var(--blanco);
+  border-radius: 10px;
+  border: none;
+  height: auto;
+  margin: 10px auto;
+  box-shadow: 0px 4px 15px rgb(16, 109, 185);
 }
 
 .title-flight {
@@ -33,6 +33,7 @@
 
 .flight-available {
   background-color: var(--blanco);
+  box-shadow: 0px 4px 15px rgb(16, 109, 185);
   width: 90%;
   border: 2px solid blue;
   height: 200px;
@@ -49,11 +50,11 @@
   height: 60px;
 }
 
-.select-options{
-    background-color: var(--blanco);
-    color: var(--negro);
-    border-radius: 10px;
-    border: 1px solid gray;
+.select-options {
+  background-color: var(--blanco);
+  color: var(--negro);
+  border-radius: 10px;
+  border: 1px solid gray;
 }
 
 .content-input {
@@ -130,8 +131,8 @@
   box-shadow: 0 0 0 1px #2684ff;
 }
 
-@media(max-width: 890px) {
-    .content-filter {
-        flex-direction: column;
-    }
+@media (max-width: 890px) {
+  .content-filter {
+    flex-direction: column;
+  }
 }
