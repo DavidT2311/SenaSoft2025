@@ -1,129 +1,112 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export default function AsientosPage() {
-  // Generar 90 asientos (15 filas x 6 asientos): verde = disponible, rojo = ocupado
   const generateSeats = () => {
     const seatLayout = [];
     for (let i = 0; i < 90; i++) {
-      seatLayout.push(Math.random() > 0.55); // 45% disponibles, 55% ocupados
+      seatLayout.push(Math.random() > 0.55); 
     }
     return seatLayout;
   };
 
   const [seats] = useState(generateSeats());
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeat, setSelectedSeat] = useState(null);
 
   const toggleSeat = (seatIndex) => {
-    const seatId = `seat-${seatIndex}`;
-    
-    // Si el asiento está ocupado (rojo), no hacer nada
-    if (!seats[seatIndex]) {
-      return;
-    }
+    const seatId = `A${seatIndex + 1}`;
 
-    // Alternar selección
-    if (selectedSeats.includes(seatId)) {
-      setSelectedSeats(selectedSeats.filter(id => id !== seatId));
+    if (!seats[seatIndex]) return; // si está ocupado no hace nada
+
+    if (selectedSeat === seatId) {
+      setSelectedSeat(null); // deselecciona si ya está seleccionado
     } else {
-      setSelectedSeats([...selectedSeats, seatId]);
+      setSelectedSeat(seatId); // selecciona un solo asiento
     }
   };
 
   const handleReserve = () => {
-    if (selectedSeats.length > 0) {
-      console.log('Asientos reservados:', selectedSeats);
-      alert(`Has seleccionado ${selectedSeats.length} asiento(s)`);
+    if (selectedSeat) {
+      alert(`Has seleccionado el asiento: ${selectedSeat}`);
+      console.log("Asiento seleccionado:", selectedSeat);
     } else {
-      alert('Por favor selecciona al menos un asiento');
+      alert("Por favor selecciona un asiento.");
     }
   };
 
   const getSeatColor = (seatIndex) => {
-    const seatId = `seat-${seatIndex}`;
+    const seatId = `A${seatIndex + 1}`;
     const isAvailable = seats[seatIndex];
-    const isSelected = selectedSeats.includes(seatId);
+    const isSelected = selectedSeat === seatId;
 
-    if (isSelected) {
-      return 'bg-blue-500 border-blue-600';
-    }
-    return isAvailable ? 'bg-green-400 border-green-500' : 'bg-red-400 border-red-500';
+    if (isSelected) return "bg-blue-500 text-white border-blue-600";
+    return isAvailable
+      ? "bg-green-400 border-green-500 text-white"
+      : "bg-red-400 border-red-500 text-white";
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br flex items-center justify-center p-6">
+      <div className="w-full max-w-5xl">
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-gray-300 to-gray-200 py-6 px-8">
-            <h2 className="text-3xl font-bold text-gray-600 text-center tracking-wide">
-              ASIENTOS DISPONIBLES
-            </h2>
+          <div className="title-flight-payments flex justify-center py-4 bg-teal-600">
+            <h2 className="text-white text-xl font-bold">ASIENTOS DISPONIBLES</h2>
           </div>
 
-          {/* Seats Grid */}
-          <div className="bg-gray-200 p-8">
-            <div className="grid grid-cols-6 gap-1.5 max-w-md mx-auto">
+          <div className="bg-gray-100 p-8 flex flex-col items-center">
+            {/* Grilla de asientos */}
+            <div className="grid grid-cols-10 gap-3 max-w-4xl mx-auto mb-8">
               {seats.map((isAvailable, index) => (
-                <button
+                <div
                   key={index}
                   onClick={() => toggleSeat(index)}
-                  disabled={!isAvailable}
-                  className={`w-10 h-10 rounded ${getSeatColor(index)} border-2 transition-all transform hover:scale-110 disabled:cursor-not-allowed disabled:hover:scale-100`}
-                />
+                  className={`
+                    w-12 h-12 flex items-center justify-center font-bold text-sm
+                    border-2 rounded-md cursor-pointer transition-all duration-200 
+                    ${getSeatColor(index)} 
+                    ${isAvailable ? "hover:scale-105" : "opacity-50 cursor-not-allowed"}
+                  `}
+                >
+                  {index + 1}
+                </div>
               ))}
             </div>
 
-            {/* Legend */}
-            <div className="flex justify-center gap-6 mt-8 mb-4">
+            {/* Leyenda */}
+            <div className="flex justify-center gap-6 mt-4 mb-6">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-green-400 border-2 border-green-500 rounded"></div>
+                <div className="w-6 h-6 bg-green-400 border-2 border-green-500 rounded-sm"></div>
                 <span className="text-gray-700 font-semibold">Disponible</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-red-400 border-2 border-red-500 rounded"></div>
+                <div className="w-6 h-6 bg-red-400 border-2 border-red-500 rounded-sm"></div>
                 <span className="text-gray-700 font-semibold">Ocupado</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded"></div>
+                <div className="w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded-sm"></div>
                 <span className="text-gray-700 font-semibold">Seleccionado</span>
               </div>
             </div>
 
-            {/* Selected Count */}
-            {selectedSeats.length > 0 && (
+            {/* Mostrar asiento seleccionado */}
+            {selectedSeat && (
               <div className="text-center mb-4">
-                <p className="text-gray-700 font-bold text-lg">
-                  Asientos seleccionados: {selectedSeats.length}
+                <p className="text-gray-800 font-bold text-lg">
+                  Asiento seleccionado:{" "}
+                  <span className="text-blue-600">{selectedSeat}</span>
                 </p>
               </div>
             )}
 
-            {/* Reserve Button */}
+            {/* Botón Reservar */}
             <div className="flex justify-center mt-6">
               <button
                 onClick={handleReserve}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-12 rounded-lg shadow-lg transition transform hover:scale-105"
+                className="bg-blue-600 hover:bg-blue-700 flex justify-center text-white font-bold px-12 rounded-lg shadow-lg transition transform hover:scale-105"
               >
                 Reservar
               </button>
             </div>
-
-            {/* Back Button */}
-            <div className="mt-6 text-center">
-              <button
-                className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-300 transition"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-            </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-8">
-          <h3 className="text-3xl font-bold text-white tracking-wider">AVIAN.NET</h3>
         </div>
       </div>
     </div>
