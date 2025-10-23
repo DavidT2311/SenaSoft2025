@@ -42,6 +42,7 @@ const VuelosPage = () => {
 
   return (
     <>
+
       {/* Carrusel */}
       <section className="carousel">
         <CarouselComponent />

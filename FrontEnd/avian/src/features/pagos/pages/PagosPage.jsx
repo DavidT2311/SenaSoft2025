@@ -1,42 +1,45 @@
 import React, { useState } from "react";
+import "./payment.css";
 import Button from "../../../shared/components/Button";
 
-export default function ReservationPage() {
+export default function PagosPage() {
   const [formData, setFormData] = useState({
     documentType: "C.C",
     email: "",
     document: "",
     phone: "",
-    firstName: "",
-    birthDate: "",
-    lastName1: "",
-    gender: "Masculino",
-    lastName2: "",
+    fullName: "",
+    paymentType: "Tarjeta Débito",
+    amount: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+    acceptTerms: false,
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = () => {
-    console.log("Reservar:", formData);
-  };
-
-  const handleViewSeats = () => {
-    console.log("Ver Asientos");
+    if (!formData.acceptTerms) {
+      alert("Debes aceptar los términos y condiciones");
+      return;
+    }
+    console.log("Reservar pago:", formData);
+    alert("Pago procesado exitosamente");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br  flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
-        <div className="text-center mb-8"></div>
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
           <div className="title-flight-payments flex justify-center">
-            <h2>FORMULARIO DE RESERVA</h2>
+            <h2>FORMULARIO DE PAGO</h2>
           </div>
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -97,75 +100,130 @@ export default function ReservationPage() {
               </div>
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Nombres:
+                  Nombre Completo:
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="Juan Andres"
+                  placeholder="Juan Andres Alvarez Gutierrez"
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Fecha Nacimiento:
-                </label>
-                <input
-                  type="date"
-                  name="birthDate"
-                  value={formData.birthDate}
-                  onChange={handleChange}
-                  placeholder="06/12/2001"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Primer Apellido:
-                </label>
-                <input
-                  type="text"
-                  name="lastName1"
-                  value={formData.lastName1}
-                  onChange={handleChange}
-                  placeholder="Alvarez"
-                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
-                />
-              </div>
-
-              <div>
-                <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Genero:
+                  Tipo de pago:
                 </label>
                 <select
-                  name="gender"
-                  value={formData.gender}
+                  name="paymentType"
+                  value={formData.paymentType}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
                 >
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
+                  <option value="Tarjeta Débito">Tarjeta Débito</option>
+                  <option value="Tarjeta Crédito">Tarjeta Crédito</option>
+                  <option value="PSE">PSE</option>
+                  <option value="Efectivo">Efectivo</option>
                 </select>
               </div>
-              <div className=" d-flex">
+              <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Segundo Apellido:
+                  Monto:
                 </label>
                 <input
                   type="text"
-                  name="lastName2"
-                  value={formData.lastName2}
+                  name="amount"
+                  value={formData.amount}
                   onChange={handleChange}
-                  placeholder="Alvarez"
+                  placeholder="750,000 COP"
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
-              <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
-                <Button text={"Ver Asientos"} />
-                <Button text={"Reservar"} />
+              <div>
+                <label className="block text-teal-700 font-bold mb-2 text-lg">
+                  Número de la tarjeta:
+                </label>
+                <input
+                  type="text"
+                  name="cardNumber"
+                  value={formData.cardNumber}
+                  onChange={handleChange}
+                  placeholder="4000 1234 5678 9010"
+                  maxLength="19"
+                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                />
               </div>
+              <div>
+                <label className="block text-teal-700 font-bold mb-2 text-lg">
+                  Caducidad:
+                </label>
+                <input
+                  type="text"
+                  name="expiryDate"
+                  value={formData.expiryDate}
+                  onChange={handleChange}
+                  placeholder="27/02"
+                  maxLength="5"
+                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                />
+              </div>
+              <div>
+                <label className="block text-teal-700 font-bold mb-2 text-lg">
+                  CVV:
+                </label>
+                <input
+                  type="text"
+                  name="cvv"
+                  value={formData.cvv}
+                  onChange={handleChange}
+                  placeholder="1234"
+                  maxLength="4"
+                  className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-3 mt-8 mb-6">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    name="acceptTerms"
+                    checked={formData.acceptTerms}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition ${
+                      formData.acceptTerms
+                        ? "bg-blue-500 border-blue-500"
+                        : "bg-white border-gray-400"
+                    }`}
+                  >
+                    {formData.acceptTerms && (
+                      <svg
+                        className="w-5 h-5 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="text-teal-700 font-bold text-lg">
+                  Aceptar Terminos y condiciones
+                </span>
+              </label>
+            </div>
+            <div className="flex justify-center">
+              <Button text={"Reservar"} />
             </div>
             <div className="mt-6 text-center">
               <button className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition">
