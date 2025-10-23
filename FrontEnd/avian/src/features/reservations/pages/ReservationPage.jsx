@@ -26,6 +26,7 @@ export default function ReservationPage() {
     }));
   };
 
+
   const handleSubmit = () => {
     const finalList = [];
     passenger_list.forEach((e) => {
@@ -47,7 +48,15 @@ export default function ReservationPage() {
   };
 
   const handleViewSeats = () => {
-    console.log("Ver Asientos");
+    console.log("Tipo de documento:", formData.documentType);
+    console.log("Correo:", formData.email);
+    console.log("Documento:", formData.document);
+    console.log("Teléfono:", formData.phone);
+    console.log("Nombres:", formData.firstName);
+    console.log("Fecha nacimiento:", formData.birthDate);
+    console.log("Primer apellido:", formData.lastName1);
+    console.log("Segundo apellido:", formData.lastName2);
+    console.log("Género:", formData.gender);
   };
 
   return (
@@ -60,6 +69,7 @@ export default function ReservationPage() {
           </div>
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tipo de documento */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Tipo de documento:
@@ -76,6 +86,8 @@ export default function ReservationPage() {
                   <option value="C.E">C.E</option>
                 </select>
               </div>
+
+              {/* Correo */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Correo:
@@ -89,6 +101,8 @@ export default function ReservationPage() {
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Documento */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Documento:
@@ -102,6 +116,8 @@ export default function ReservationPage() {
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Teléfono */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Celular:
@@ -115,6 +131,8 @@ export default function ReservationPage() {
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Nombres */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Nombres:
@@ -128,6 +146,8 @@ export default function ReservationPage() {
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Fecha de nacimiento */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Fecha Nacimiento:
@@ -137,10 +157,11 @@ export default function ReservationPage() {
                   name="birthDate"
                   value={formData.birthDate}
                   onChange={handleChange}
-                  placeholder="06/12/2001"
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Primer Apellido */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Primer Apellido:
@@ -155,9 +176,10 @@ export default function ReservationPage() {
                 />
               </div>
 
+              {/* Género */}
               <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
-                  Genero:
+                  Género:
                 </label>
                 <select
                   name="gender"
@@ -169,7 +191,9 @@ export default function ReservationPage() {
                   <option value="Femenino">Femenino</option>
                 </select>
               </div>
-              <div className=" d-flex">
+
+              {/* Segundo Apellido */}
+              <div>
                 <label className="block text-teal-700 font-bold mb-2 text-lg">
                   Segundo Apellido:
                 </label>
@@ -182,13 +206,19 @@ export default function ReservationPage() {
                   className="w-full px-4 py-3 bg-gray-200 border-2 border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
+
+              {/* Botones */}
               <div className="flex flex-col md:flex-row gap-4 mt-8 md:justify-center">
-                <Button text={"Ver Asientos"} />
+                <div onClick={handleViewSeats}>
+                  <Button text={"Ver Asientos"} />
+                </div>
                 <div onClick={handleSubmit}>
                   <Button text={"Reservar"} />
                 </div>
               </div>
             </div>
+
+            {/* Botón de volver */}
             <div className="mt-6 text-center">
               <button className="inline-flex items-center justify-center w-10 h-10 border-2 border-gray-700 rounded-full hover:bg-gray-100 transition">
                 <svg

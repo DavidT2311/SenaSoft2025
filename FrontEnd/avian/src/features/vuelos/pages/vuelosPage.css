@@ -49,10 +49,11 @@
   height: 60px;
 }
 
-.select-options {
-  background-color: var(--blanco);
-  color: var(--negro);
-  border-radius: 10px;
+.select-options{
+    background-color: var(--blanco);
+    color: var(--negro);
+    border-radius: 10px;
+    border: 1px solid gray;
 }
 
 .content-input {
